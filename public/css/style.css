@@ -1,0 +1,122 @@
+
+body {
+  font-family: "Plus Jakarta Sans", serif !important;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;  
+}
+
+.container {
+    flex: 1;
+}
+
+.navbar {
+    height: 5rem;
+    background-color: rgb(255, 255, 255) !important;
+    backdrop-filter: blur(10px) !important;
+}
+.nav-link {
+    color: rgb(0, 0, 0) !important;
+}
+.fa-airbnb {
+    color : #fe424d !important;
+    font-size: 2rem;
+}
+.f-info {
+    text-align: center;
+    height: 8rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: space-evenly;
+    background-color: #ebebeb;
+}
+.f-info-social, .f-info-links {
+    width: 100%;
+}
+.f-info-links a {
+    text-decoration: none;
+    color: grey;
+}
+.f-info-links a:hover{
+    text-decoration: underline;
+}
+.f-info-social i {
+    margin-right: 1rem;
+    font-size: 1.4rem;
+}
+
+/* CARDS DESIGN  */
+
+.card {
+    border: none !important;
+    cursor: pointer;
+    margin-bottom: 1.5rem;
+}
+
+.index-img {
+    padding: 0;;
+    width: 100%;
+    border-radius: 1rem !important;
+    height: 15rem;
+    transition: transform 0.67s;
+}
+
+.card {
+    /* padding: 1rem; */
+    margin: 1rem;
+    border-radius: 0.5rem;
+    transition: transform 0.67s;
+}
+
+.index-img:hover {
+    background-color: #eeeeee ;
+    transform: scale(1.01);
+    /* box-shadow: 1px 2px 20px #ff0000f8; */
+    box-shadow: 17px 15px 10px #00000088;
+    /* opacity: 0.7; */
+}
+
+.card-text {
+    font-weight: 400;
+}
+.listing-link {
+    text-decoration: none;
+    color: black;
+}
+.listing-link:hover {
+    color: black;
+}
+
+/* new page */
+.btn {
+    background-color: #fe424d;
+    color: #ffffff;
+}
+
+/* show page  */
+.show-img {
+    width: 100%;
+    border-radius: 1rem !important;
+    height: 14rem;
+    padding: 0;
+}
+.show-btn {
+    /* margin-left: 21rem; */
+    display: flex;
+}
+.show-delete-btn {
+    padding: 0.45rem 2rem;
+    border-radius: 0.25rem;
+    margin-left: 5rem;
+}
+.btn-dark {
+    padding: 0.45rem 2rem;
+}
+.btn-outline-dark {
+    padding: 0.45rem 2rem;
+    border-radius: 0.6rem;
+}
+.show-card {
+    padding : 0;
+}
