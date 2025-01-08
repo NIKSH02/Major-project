@@ -30,8 +30,15 @@ const validateListing = (req,res,next) => {
   const { error } = listingSchema.validate(req.body);
   if (error) {
     let errMsg = error.details.map((el) => el.message).join(",");
-    next(new ExpressError(400, errMsg));
+    throw new ExpressError(400, errMsg);
+  } else {
+    next();
   }
+
+//   let result = listingSchema.validate(req.body);
+//   if (result.error) {
+//     throw new ExpressError(400 , result.error);
+//   }
 }
 
 // index route
@@ -54,7 +61,7 @@ app.post(
   wrapAsync(async (req, res, next) => {
     const newlisting = new Listing(req.body.listing);
     await newlisting.save();
-    console.log(newlisting);
+    // console.log(newlisting);
     res.redirect("/listing");
   })
 );
@@ -81,7 +88,7 @@ app.get(
 
 //update Route
 app.put(
-  "/listing/:id",
+  "/listing/:id",validateListing,
   wrapAsync(async (req, res) => {
     if (!req.body.listing) {
       throw new ExpressError(400, "send valid data please");
@@ -103,6 +110,7 @@ app.delete(
   })
 );
 
+// Review post req to save 
 app.post("/listing/:id/reviews" , async (req,res) => {
   let listing = await Listing.findById(req.params.id);
   let newReview = new Review (req.body.review);
