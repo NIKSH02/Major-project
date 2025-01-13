@@ -55,7 +55,7 @@ async function main() {
 
 // index route
 app.get(
-  "/listing",validateListing,
+  "/listing",
   wrapAsync(async (req, res) => {
     const allListing = await Listing.find({});
     res.render("listing/index.ejs", { allListing });

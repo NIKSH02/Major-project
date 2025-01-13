@@ -104,6 +104,7 @@ body {
 .show-btn {
     /* margin-left: 21rem; */
     display: flex;
+    margin-left: 1rem;
 }
 .show-delete-btn {
     padding: 0.45rem 2rem;
