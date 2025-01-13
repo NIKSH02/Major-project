@@ -8,7 +8,7 @@ const method = require("method-override");
 const ejsmate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
-const { listingSchema } = require("./schema.js");
+const { listingSchema,reviewSchema } = require("./schema.js");
 const Review = require("./models/review.js");
 
 app.set("view engine", "ejs");
@@ -17,14 +17,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(method("_method"));
 app.engine("ejs", ejsmate);
 app.use(express.static(path.join(__dirname, "public")));
-
-main()
-  .then(() => console.log("connected to mangodb"))
-  .catch((err) => console.log(err));
-
-async function main() {
-  await mongoose.connect(MONGO_DB);
-}
 
 const validateListing = (req,res,next) => {
   const { error } = listingSchema.validate(req.body);
@@ -40,12 +32,30 @@ const validateListing = (req,res,next) => {
 //     throw new ExpressError(400 , result.error);
 //   }
 
-
 }
+
+const validateReview =  (req,res,next) => {
+  const { error } = reviewSchema.validate(req.body);
+  if (error) {
+    let errMsg = error.details.map((el) => el.message).join(",");
+    throw new ExpressError(400,errMsg);
+  }else {
+    next();
+  }
+}
+
+main()
+  .then(() => console.log("connected to mangodb"))
+  .catch((err) => console.log(err));
+
+async function main() {
+  await mongoose.connect(MONGO_DB);
+}
+
 
 // index route
 app.get(
-  "/listing",
+  "/listing",validateListing,
   wrapAsync(async (req, res) => {
     const allListing = await Listing.find({});
     res.render("listing/index.ejs", { allListing });
@@ -59,7 +69,7 @@ app.get("/listing/new", (req, res, next) => {
 
 // create route
 app.post(
-  "/listing",validateListing,
+  "/listing",
   wrapAsync(async (req, res, next) => {
     const newlisting = new Listing(req.body.listing);
     await newlisting.save();
@@ -113,7 +123,7 @@ app.delete(
 );
 
 // Review post req to save 
-app.post("/listing/:id/reviews" , async (req,res) => {
+app.post("/listing/:id/reviews",validateReview,wrapAsync(async (req,res) => {
   let listing = await Listing.findById(req.params.id);
   let newReview = new Review (req.body.review);
   
@@ -122,8 +132,8 @@ app.post("/listing/:id/reviews" , async (req,res) => {
   await newReview.save();
   await listing.save();
   console.log(" review saved ");
-  res.send("review is success");
-})
+  res.redirect(`/listing/${listing.id}`)
+}));
 
 app.get("/", (req, res) => {
   res.send("root api working ");
