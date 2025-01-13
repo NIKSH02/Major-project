@@ -1,8 +1,8 @@
 <% layout('/layouts/boilarplate.ejs') -%>
 <body>
   <div class="row">
-    <div class="col-5 offset-3" style="padding-left: 0;">
-      <div class="card show-card" >
+    <div class="col-8 offset-3" style="padding-left: 0;">
+      <div class="card show-card listing-card" >
         <h3 class="mt-3"><%= listing.title %></h3>
         <img src="<%= listing.image %>" class="card-img-top show-img" alt="Image" />
         <div class="card-body">
@@ -22,7 +22,7 @@
         </form>
     </div>
     <hr>
-    <div class="col-5 offset-3">
+    <div class="col-8 offset-3">
       <h4>Leave a Review</h4>
       <form  method="post" action="/listing/<%= listing.id %>/reviews" novalidate class="needs-validation">
         <div class="mb-3">
@@ -36,6 +36,22 @@
         </div>
         <button class="btn-outline-dark">submit</button>
       </form>
+      <hr>
+      <div>
+        <p><b>All Reviews</b></p>
+        <!-- <%= listing.reviews %> -->
+         <div class="row">
+        <% for (review of listing.reviews) { %> 
+          <div class="card col-5 mb-3 ms-3" >
+            <div class="card-body">
+              <h5 class="card-title">jon doe</h5>
+              <p class="card-text"><%= review.comment %></p>
+              <p class="card-text"><%= review.rating %> Stars</p>
+            </div>
+          </div>
+        <% } %>  
+      </div>
+      </div>
     </div>
   </div> 
   <br>

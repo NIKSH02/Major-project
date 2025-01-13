@@ -48,24 +48,23 @@ body {
 
 /* CARDS DESIGN  */
 
-.card {
-    border: none !important;
-    cursor: pointer;
-    margin-bottom: 1.5rem;
-}
+
 
 .index-img {
     padding: 0;;
     width: 100%;
     border-radius: 1rem !important;
-    height: 15rem;
+    height: 16.5rem;
     transition: transform 0.67s;
 }
 
-.card {
+.listing-card {
     /* padding: 1rem; */
     margin: 1rem;
     border-radius: 0.5rem;
+    border: none !important;
+    cursor: pointer;
+    margin-bottom: 1.5rem;
     transition: transform 0.67s;
 }
 
@@ -81,6 +80,7 @@ body {
     font-weight: 400;
 }
 .listing-link {
+    /* margin: 1rem; */
     text-decoration: none;
     color: black;
 }
@@ -96,9 +96,9 @@ body {
 
 /* show page  */
 .show-img {
-    width: 100%;
+    width: 80%;
     border-radius: 1rem !important;
-    height: 14rem;
+    height: 16rem;
     padding: 0;
 }
 .show-btn {
