@@ -117,7 +117,7 @@ app.delete(
   wrapAsync(async (req, res) => {
     let { id } = req.params;
     let deletedlisting = await Listing.findByIdAndDelete(id);
-    // console.log(deletedlisting);
+    console.log(deletedlisting);
     res.redirect("/listing");
   })
 );
@@ -135,6 +135,18 @@ app.post("/listing/:id/reviews",validateReview,wrapAsync(async (req,res) => {
   res.redirect(`/listing/${listing.id}`)
 }));
 
+// Review for deleting the reviews 
+app.delete("/listing/:id/reviews/:reviewId", wrapAsync(async(req,res) => {
+
+  let {id , reviewId} = req.params;
+  console.log(id,reviewId);
+  await Review.findByIdAndDelete(reviewId);
+  await Listing.findByIdAndUpdate(id , {$pull : {reviews:reviewId}});
+  
+  res.redirect(`/listing/${id}`);
+
+}));
+
 app.get("/", (req, res) => {
   res.send("root api working ");
 });
@@ -145,6 +157,7 @@ app.all("*", (req, res, next) => {
 
 app.use((err, req, res, next) => {
   let { statuscode = 500, message = "internal server error" } = err;
+  console.log(err);
   res.status(statuscode).render("listing/error.ejs", { message });
   next();
 });
