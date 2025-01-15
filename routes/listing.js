@@ -23,7 +23,7 @@ const validateListing = (req,res,next) => {
 
 // index route
 router.get(
-    "/listing",
+    "/",
     wrapAsync(async (req, res) => {
       const allListing = await Listing.find({});
       res.render("listing/index.ejs", { allListing });
@@ -31,13 +31,13 @@ router.get(
   );
   
   // new route
-  router.get("/listing/new", (req, res, next) => {
+  router.get("/new", (req, res, next) => {
     res.render("listing/new.ejs");
   });
   
   // create route
   router.post(
-    "/listing",
+    "/",
     wrapAsync(async (req, res, next) => {
       const newlisting = new Listing(req.body.listing);
       await newlisting.save();
@@ -48,7 +48,7 @@ router.get(
   
   // edit route
   router.get(
-    "/listing/:id/edit",
+    "/:id/edit",
     wrapAsync(async (req, res) => {
       let { id } = req.params;
       let listing = await Listing.findById(id);
@@ -58,7 +58,7 @@ router.get(
   
   // show route
   router.get(
-    "/listing/:id",
+    "/:id",
     wrapAsync(async (req, res) => {
       let { id } = req.params;
       const listing = await Listing.findById(id).populate("reviews");
@@ -68,7 +68,7 @@ router.get(
   
   //update Route
   router.put(
-    "/listing/:id",validateListing,
+    "/:id",validateListing,
     wrapAsync(async (req, res) => {
       if (!req.body.listing) {
         throw new ExpressError(400, "send valid data please");
@@ -81,7 +81,7 @@ router.get(
   
   //delete route
   router.delete(
-    "/listing/:id",
+    "/:id",
     wrapAsync(async (req, res) => {
       let { id } = req.params;
       let deletedlisting = await Listing.findByIdAndDelete(id);

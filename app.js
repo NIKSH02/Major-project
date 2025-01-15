@@ -1,12 +1,12 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const Listing = require("./models/listing.js");
 const MONGO_DB = "mongodb://127.0.0.1:27017/wanderlust";
 const path = require("path");
 const method = require("method-override");
 const ejsmate = require("ejs-mate");
-
+const ExpressError = require("./utils/ExpressError.js");
+const review = require("./routes/review.js");
 const listing = require("./routes/listing.js")
 
 app.set("view engine", "ejs");
@@ -15,7 +15,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(method("_method"));
 app.engine("ejs", ejsmate);
 app.use(express.static(path.join(__dirname, "public")));
-const review = require("./routes/review.js");
 
 main()
   .then(() => console.log("connected to mangodb"))
@@ -25,8 +24,8 @@ async function main() {
   await mongoose.connect(MONGO_DB);
 }
 
-app.use("/", listing);
-app.use("/",review)
+app.use("/listing", listing);
+app.use("/listing/:id/reviews",review)
 
 
 // FALTU KA ROOT API
