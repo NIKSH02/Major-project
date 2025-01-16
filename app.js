@@ -24,6 +24,7 @@ async function main() {
   await mongoose.connect(MONGO_DB);
 }
 
+//All Routes 
 app.use("/listing", listing);
 app.use("/listing/:id/reviews",review)
 
