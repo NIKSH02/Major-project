@@ -16,6 +16,7 @@ app.use(method("_method"));
 app.engine("ejs", ejsmate);
 app.use(express.static(path.join(__dirname, "public")));
 
+
 main()
   .then(() => console.log("connected to mangodb"))
   .catch((err) => console.log(err));
