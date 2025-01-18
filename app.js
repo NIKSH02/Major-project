@@ -8,6 +8,7 @@ const ejsmate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError.js");
 const review = require("./routes/review.js");
 const listing = require("./routes/listing.js")
+const session = require("express-session");
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -16,6 +17,13 @@ app.use(method("_method"));
 app.engine("ejs", ejsmate);
 app.use(express.static(path.join(__dirname, "public")));
 
+const sessionOptions = {
+  secret: "mysupersecretcode",
+  resave: false,
+  saveUninitialized : true,
+}
+
+app.use(session(sessionOptions));
 
 main()
   .then(() => console.log("connected to mangodb"))
