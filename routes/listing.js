@@ -41,6 +41,7 @@ router.get(
     wrapAsync(async (req, res, next) => {
       const newlisting = new Listing(req.body.listing);
       await newlisting.save();
+      req.flash("success","Wow your Home is now Airbnb 🎉")
       // console.log(newlisting);
       res.redirect("/listing");
     })
@@ -62,6 +63,10 @@ router.get(
     wrapAsync(async (req, res) => {
       let { id } = req.params;
       const listing = await Listing.findById(id).populate("reviews");
+      if (!listing) {
+        req.flash("error","The Airbnb you requested does not exist")
+        res.redirect("/listing")
+      }
       res.render("listing/show.ejs", { listing });
     })
   );
@@ -75,6 +80,7 @@ router.get(
       }
       let { id } = req.params;
       await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+      req.flash("update","Wow your Airbnb is Updated 🪅");
       res.redirect(`/listing/${id}`);
     })
   );
@@ -86,6 +92,7 @@ router.get(
       let { id } = req.params;
       let deletedlisting = await Listing.findByIdAndDelete(id);
       console.log(deletedlisting);
+      req.flash("fail","oops your Home is no more Airbnb 🪅");
       res.redirect("/listing");
     })
   );

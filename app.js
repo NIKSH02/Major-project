@@ -6,9 +6,11 @@ const path = require("path");
 const method = require("method-override");
 const ejsmate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError.js");
+const session = require("express-session");
+const flash = require("connect-flash");
+
 const review = require("./routes/review.js");
 const listing = require("./routes/listing.js")
-const session = require("express-session");
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -21,9 +23,15 @@ const sessionOptions = {
   secret: "mysupersecretcode",
   resave: false,
   saveUninitialized : true,
+  cookie : {
+    expires : Date.now()+7*24*60*60*1000,
+    maxAge : 7*24*60*60*1000,
+    httpOnly : true,
+  }
 }
 
 app.use(session(sessionOptions));
+app.use(flash());
 
 main()
   .then(() => console.log("connected to mangodb"))
@@ -32,6 +40,14 @@ main()
 async function main() {
   await mongoose.connect(MONGO_DB);
 }
+
+app.use((req,res,next)=> {
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
+  res.locals.fail = req.flash("fail");
+  res.locals.update = req.flash("update")
+  next()
+}) 
 
 //All Routes 
 app.use("/listing", listing);
