@@ -53,6 +53,10 @@ router.get(
     wrapAsync(async (req, res) => {
       let { id } = req.params;
       let listing = await Listing.findById(id);
+      if (!listing) {
+        req.flash("error","The Airbnb you requested does not exist 🙃");
+        res.redirect("/listing");
+      }
       res.render("listing/edit.ejs", { listing });
     })
   );
@@ -64,8 +68,8 @@ router.get(
       let { id } = req.params;
       const listing = await Listing.findById(id).populate("reviews");
       if (!listing) {
-        req.flash("error","The Airbnb you requested does not exist")
-        res.redirect("/listing")
+        req.flash("error","The Airbnb you requested does not exist 🥲");
+        res.redirect("/listing");
       }
       res.render("listing/show.ejs", { listing });
     })
