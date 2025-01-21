@@ -89,11 +89,17 @@ body {
 }
 
 /* new page */
-.btn {
+.new-btn {
     background-color: #fe424d;
     color: #ffffff;
 }
 
+/* edit page  */
+.edit-btn {
+    background-color: #fe424d;
+    color: #ffffff;
+}
+ 
 /* show page  */
 .show-img {
     width: 80%;
@@ -121,3 +127,9 @@ body {
 .show-card {
     padding : 0;
 }
+
+/* signup page  */
+/* .signup-btn {
+    position: absolute;
+    left: 30rem;
+} */

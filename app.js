@@ -10,9 +10,11 @@ const session = require("express-session");
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
+const User = require("./models/user.js")
 
-const review = require("./routes/review.js");
-const listing = require("./routes/listing.js")
+const reviewRouter = require("./routes/review.js");
+const listingRouter = require("./routes/listing.js");
+const userRouter = require("./routes/user.js");
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -36,7 +38,6 @@ app.use(session(sessionOptions));
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
-
 passport.use(new LocalStrategy(User.authenticate()));
 
 passport.serializeUser(User.serializeUser());
@@ -58,9 +59,19 @@ app.use((req,res,next)=> {
   next()
 }) 
 
+// app.get('/demoUser', async (req,res) => {
+//   let fake = new User ({
+//     email : 'nik@gmail.com',
+//     username: "nikhil",
+//   })
+//   let regesteredStudent = await User.register(fake,"nik@@what");
+//   res.send(regesteredStudent);
+// })
+
 //All Routes 
-app.use("/listing", listing);
-app.use("/listing/:id/reviews",review)
+app.use("/listing", listingRouter);
+app.use("/listing/:id/reviews",reviewRouter);
+app.use("/",userRouter);
 
 
 // FALTU KA ROOT API
@@ -80,6 +91,6 @@ app.use((err, req, res, next) => {
 });
 
 
-app.listen("8080", () => {
-  console.log("app listening at port 8080");
+app.listen("4000", () => {
+  console.log("app listening at port 4000");
 });
