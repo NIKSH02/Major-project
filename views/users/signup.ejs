@@ -1,0 +1,25 @@
+<% layout('/layouts/boilarplate.ejs') -%>
+<h1 class="col-6 offset-3">SignUp On Air 🙈</h1>
+    <div class="row mt-4">
+        <div class="col-6 offset-3">
+            <form method="post" action="/signup" novalidate class="needs-validation"> 
+                <div class="mb-3">
+                    <label for="username" class="form-label">UserName</label>
+                    <input type="text" name="username" id="username" placeholder="Username" class="form-control" required />
+                    <div class="invalid-feedback">Please enter a valid username</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" name="email" id="email" placeholder="Email" class="form-control" required />
+                    <div class="invalid-feedback">Please enter a valid Email</div>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" name="password" id="password" placeholder="passcode" class="form-control" required />
+                    <div class="invalid-feedback">Please enter a valid password (containing mix of 8 letter and char) </div>
+                </div>
+                <button class="signup-btn btn btn-outline-success mt-4">SignUp</button>
+            </form>
+        </div>
+    </div>
