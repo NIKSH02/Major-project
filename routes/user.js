@@ -39,7 +39,7 @@ router.post("/login"
         let { username } = req.body;
         req.flash("success",`Welcome back ${username} 😄`)
         redirectUrl = res.locals.redirectUrl || "/listing";
-        console.log(redirectUrl,res.locals.redirectUrl)
+        // console.log(redirectUrl,res.locals.redirectUrl)    for debugging and my better understanding 
         res.redirect(redirectUrl);
 })
 
