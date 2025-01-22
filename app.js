@@ -55,7 +55,8 @@ app.use((req,res,next)=> {
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
   res.locals.fail = req.flash("fail");
-  res.locals.update = req.flash("update")
+  res.locals.update = req.flash("update");
+  res.locals.currUser = req.user;
   next()
 }) 
 
@@ -91,6 +92,6 @@ app.use((err, req, res, next) => {
 });
 
 
-app.listen("4000", () => {
-  console.log("app listening at port 4000");
+app.listen("8080", () => {
+  console.log("app listening at port 8080");
 });

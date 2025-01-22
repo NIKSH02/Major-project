@@ -128,8 +128,16 @@ body {
     padding : 0;
 }
 
-/* signup page  */
+/* signup page  and login page too*/
 /* .signup-btn {
     position: absolute;
     left: 30rem;
 } */
+.signup {
+    position: relative;
+    top: 5.5rem;
+}
+.login {
+    position: relative;
+    top: 5.5rem;
+}
