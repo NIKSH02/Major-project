@@ -6,7 +6,6 @@ const { listingSchema } = require("../schema.js");
 const Listing = require("../models/listing.js");
 const { isLoggedIn } = require("../middleware.js");
 
-
 const validateListing = (req,res,next) => {
     const { error } = listingSchema.validate(req.body);
     if (error) {
