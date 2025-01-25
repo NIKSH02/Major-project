@@ -41,6 +41,7 @@ router.get(
     "/",isLoggedIn,
     wrapAsync(async (req, res, next) => {
       const newlisting = new Listing(req.body.listing);
+      newlisting.owner = req.user._id;
       await newlisting.save();
       req.flash("success","Wow your Home is now Airbnb 🎉")
       // console.log(newlisting);
@@ -67,7 +68,7 @@ router.get(
     "/:id",
     wrapAsync(async (req, res) => {
       let { id } = req.params;
-      const listing = await Listing.findById(id).populate("reviews");
+      const listing = await Listing.findById(id).populate("reviews").populate("owner");
       if (!listing) {
         req.flash("error","The Airbnb you requested does not exist 🥲");
         res.redirect("/listing");
