@@ -67,7 +67,7 @@ app.use((req,res,next)=> {
 //   })
 //   let regesteredStudent = await User.register(fake,"nik@@what");
 //   res.send(regesteredStudent);
-// })
+// })ffffff
 
 //All Routes 
 app.use("/listing", listingRouter);

@@ -36,7 +36,7 @@ router.post("/login"
     ,saveRedirectUrl
     ,passport.authenticate("local",{failureRedirect: "/login", failureFlash: true, })
     ,async (req,res) =>{
-        let { username } = req.body;
+        let { username } = req.body; 
         req.flash("success",`Welcome back ${username} 😄`)
         redirectUrl = res.locals.redirectUrl || "/listing";
         // console.log(redirectUrl,res.locals.redirectUrl)    for debugging and my better understanding 
