@@ -2,6 +2,7 @@ const Listing = require("./models/listing.js");
 const ExpressError = require("./utils/ExpressError.js");
 const { listingSchema } = require("./schema.js");
 const { reviewSchema } = require("./schema.js");
+const Review = require("./models/review.js");
 
 module.exports.isLoggedIn = (req,res, next) => {
     if (!req.isAuthenticated()) {
@@ -53,3 +54,24 @@ module.exports.validateReview =  (req,res,next) => {
     next();
   }
 }
+
+module.exports.isReviewOwner = async (req,res,next) => {
+  let { id , reviewId} = req.params;
+  const review = await Review.findById(reviewId);
+  console.log("locals",res.locals.currUser._id);
+  if (!res.locals.currUser._id.equals(review.author._id)) {
+    req.flash("error","You are not the owner of this Review !!!");
+    return res.redirect(`/listing/${id}`)
+  }
+  next();
+}
+
+// module.exports.isReviewOwner = async (req,res,next) => {
+//   let { id,reviewId } = req.params ;
+//   let listing = await Review.findById(reviewId);
+//   if (!res.locals.currUser._id.equals(listing.author._id)) { 
+//     req.flash("error","you are not the owner/Authorized to edit ");
+//     return res.redirect(`/listing/${id}`);
+//   }
+//   next();
+// }
