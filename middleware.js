@@ -65,13 +65,3 @@ module.exports.isReviewOwner = async (req,res,next) => {
   }
   next();
 }
-
-// module.exports.isReviewOwner = async (req,res,next) => {
-//   let { id,reviewId } = req.params ;
-//   let listing = await Review.findById(reviewId);
-//   if (!res.locals.currUser._id.equals(listing.author._id)) { 
-//     req.flash("error","you are not the owner/Authorized to edit ");
-//     return res.redirect(`/listing/${id}`);
-//   }
-//   next();
-// }
