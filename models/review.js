@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
-const schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
-const reviewSchema = new schema ({
+const reviewSchema = new Schema ({
     comment : {
         type : String,
         required : true 
@@ -14,6 +14,10 @@ const reviewSchema = new schema ({
     createdAt : {
         type : Date,
         default : Date.now(),
+    }, 
+    author : {
+        type : Schema.Types.ObjectId,
+        ref : "User",
     }
 })
 

@@ -3,6 +3,8 @@ const router = express.Router();
 const wrapAsync = require("../utils/wrapAsync.js");
 const Listing = require("../models/listing.js");
 const { isLoggedIn , isowner , validateListing  } = require("../middleware.js");
+const Review = require("../models/review.js");
+const User = require("../models/user.js");
 
 
 // index route
@@ -53,12 +55,18 @@ router.get(
     "/:id",
     wrapAsync(async (req, res) => {
       let { id } = req.params;
-      const listing = await Listing.findById(id).populate("reviews").populate("owner");
+      const listing = await Listing.findById(id)
+      .populate({
+        path : "reviews" , 
+        populate : {
+          path : "author" 
+        }})
+      .populate("owner");
       if (!listing) {
         req.flash("error","The Airbnb you requested does not exist 🥲");
         res.redirect("/listing");
       }
-      res.render("listing/show.ejs", { listing });
+      res.render("listing/show.ejs", { listing } );
     })
   );
   

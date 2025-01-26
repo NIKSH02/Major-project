@@ -24,8 +24,9 @@
         </form>
         <% } %>
     </div>
-    <hr>
     <div class="col-8 offset-3">
+      <hr/>
+      <% if (currUser) { %>
       <h4>Leave a Review</h4>
       <form  method="post" action="/listing/<%= listing.id %>/reviews" novalidate class="needs-validation">
         <div class="mb-3">
@@ -40,6 +41,7 @@
         <button class="btn-outline-dark">submit</button>
       </form>
       <hr>
+      <% } %>
       <div>
         <p><b>All Reviews</b></p>
          <div class="row">
@@ -48,7 +50,7 @@
         <% for (review of listing.reviews) { %> 
           <div class="card col-5 mb-3 ms-3" >
             <div class="card-body">
-              <h5 class="card-title">jon doe </h5>
+              <h5 class="card-title"><%= review.author.username %></h5>
               <p class="card-text"><%= review.comment %></p>
               <p class="card-text"><%= review.rating %> Stars</p>
               <form method="post" action="/listing/<%= listing.id %>/reviews/<%= review.id %>?_method=DELETE">
