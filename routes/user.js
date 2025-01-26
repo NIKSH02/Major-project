@@ -5,10 +5,12 @@ const wrapAsync = require("../utils/wrapAsync.js");
 const passport = require("passport");
 const { saveRedirectUrl } = require("../middleware.js");
 
+//signup form route 
 router.get("/signup" , (req,res) => {
     res.render("users/signup.ejs")
 })
 
+//signup post req route 
 router.post("/signup", wrapAsync(async(req,res) => {
     try {
     let { username, email, password } = req.body;
@@ -28,10 +30,12 @@ router.post("/signup", wrapAsync(async(req,res) => {
     }
 }));
 
+// login form route 
 router.get("/login",(req,res) => {
     res.render("users/login.ejs")
 });
 
+// login post req route 
 router.post("/login"
     ,saveRedirectUrl
     ,passport.authenticate("local",{failureRedirect: "/login", failureFlash: true, })
@@ -43,6 +47,7 @@ router.post("/login"
         res.redirect(redirectUrl);
 })
 
+// logout route 
 router.get("/logout" , (req,res,next) => {
     req.logout((err) => {
         if (err) {

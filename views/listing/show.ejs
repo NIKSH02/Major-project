@@ -48,7 +48,7 @@
         <% for (review of listing.reviews) { %> 
           <div class="card col-5 mb-3 ms-3" >
             <div class="card-body">
-              <h5 class="card-title">jon doe</h5>
+              <h5 class="card-title">jon doe </h5>
               <p class="card-text"><%= review.comment %></p>
               <p class="card-text"><%= review.rating %> Stars</p>
               <form method="post" action="/listing/<%= listing.id %>/reviews/<%= review.id %>?_method=DELETE">
@@ -59,7 +59,7 @@
         <% } %> 
         <% } %> 
         <% if (length==0) {%>
-          <div class="card col-5 mb-3 ms-3">
+          <div class="card  mb-3 ms-3">
             <p class="card-text" style="text-align: center;"><b>No Review Yet </b></p>
           </div>
         <% } %>

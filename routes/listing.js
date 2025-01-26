@@ -1,26 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const wrapAsync = require("../utils/wrapAsync.js");
-const ExpressError = require("../utils/ExpressError.js");
-const { listingSchema } = require("../schema.js");
 const Listing = require("../models/listing.js");
-const { isLoggedIn } = require("../middleware.js");
+const { isLoggedIn , isowner , validateListing  } = require("../middleware.js");
 
-const validateListing = (req,res,next) => {
-    const { error } = listingSchema.validate(req.body);
-    if (error) {
-      let errMsg = error.details.map((el) => el.message).join(",");
-      throw new ExpressError(400, errMsg);
-    } else {
-      next();
-    }
-  
-  //   let result = listingSchema.validate(req.body);
-  //   if (result.error) {
-  //     throw new ExpressError(400 , result.error);
-  //   }
-  
-  }
 
 // index route
 router.get(
@@ -51,7 +34,9 @@ router.get(
   
   // edit route
   router.get(
-    "/:id/edit",isLoggedIn, 
+    "/:id/edit",
+    isLoggedIn, 
+    isowner,
     wrapAsync(async (req, res) => {
       let { id } = req.params;
       let listing = await Listing.findById(id);
@@ -79,11 +64,11 @@ router.get(
   
   //update Route
   router.put(
-    "/:id",isLoggedIn,validateListing,
+    "/:id",
+    isLoggedIn,
+    isowner,
+    validateListing,
     wrapAsync(async (req, res) => {
-      if (!req.body.listing) {
-        throw new ExpressError(400, "send valid data please");
-      }
       let { id } = req.params;
       await Listing.findByIdAndUpdate(id, { ...req.body.listing });
       req.flash("update","Wow your Airbnb is Updated 🪅");
@@ -93,7 +78,9 @@ router.get(
   
   //delete route
   router.delete(
-    "/:id",isLoggedIn,
+    "/:id",
+    isLoggedIn,
+    isowner,
     wrapAsync(async (req, res) => {
       let { id } = req.params;
       let deletedlisting = await Listing.findByIdAndDelete(id);
