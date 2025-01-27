@@ -11,12 +11,15 @@ module.exports.renderNewForm = (req, res) => {
   }
 
 module.exports.createListing = async (req, res) => {
-      const newlisting = new Listing(req.body.listing);
-      newlisting.owner = req.user._id;
-      await newlisting.save();
-      req.flash("success","Wow your Home is now Airbnb 🎉")
-      // console.log(newlisting);
-      res.redirect("/listing");
+  let url = req.file.path;
+  let filename = req.file.filename
+  const newlisting = new Listing(req.body.listing);
+  newlisting.owner = req.user._id;
+  newlisting.image = {url,filename }
+  await newlisting.save();
+  req.flash("success","Wow your Home is now Airbnb 🎉")
+  // console.log(newlisting);
+  res.redirect("/listing");
     }
 
 module.exports.renderEditForm = async (req, res) => {
