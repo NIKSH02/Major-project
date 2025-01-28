@@ -29,7 +29,10 @@ module.exports.renderEditForm = async (req, res) => {
         req.flash("error","The Airbnb you requested does not exist 🙃");
         res.redirect("/listing");
     }
-    res.render("listing/edit.ejs", { listing });
+
+    let originalImageUrl = listing.image.url;
+    originalImageUrl = originalImageUrl.replace("/upload","/upload/w_220/")
+    res.render("listing/edit.ejs", { listing , originalImageUrl });
 }
 
 

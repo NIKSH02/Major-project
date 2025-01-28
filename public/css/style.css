@@ -20,7 +20,7 @@ body {
 }
 .fa-airbnb {
     color : #fe424d !important;
-    font-size: 2rem;
+    font-size: 2.4rem;
 }
 .f-info {
     text-align: center;
@@ -46,6 +46,43 @@ body {
     font-size: 1.4rem;
 }
 
+.navbar-brand {
+    display: flex;
+    color: #fe424d !important;
+    vertical-align: middle;
+}
+
+.brand-name {
+    font-size: 1.5rem;
+}
+
+.search-btn {
+    cursor: pointer;
+    background-color: #fe424d;
+    color: #ffffff;
+    border-radius: 50%;
+    width: 2.5rem;
+}
+.search-bar {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0.5rem 1rem 0.5rem 1rem ;
+    border: 0.5px solid black;
+    border-radius: 2rem;
+    width: 25rem;
+    height: 3.5rem;
+}
+.search-inp {
+    flex: 1;
+    border: none;
+    border-radius: 2rem;
+    outline: none !important;
+    box-shadow: none;
+    text-align: center;
+}
+.search-inp:hover {
+    border: none;
+}
 /* CARDS DESIGN  */
 
 
@@ -60,7 +97,7 @@ body {
 
 .listing-card {
     /* padding: 1rem; */
-    margin: 1rem;
+    margin: 0rem;
     border-radius: 0.5rem;
     border: none !important;
     cursor: pointer;

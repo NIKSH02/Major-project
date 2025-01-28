@@ -78,12 +78,6 @@ app.use("/listing", listingRouter);
 app.use("/listing/:id/reviews",reviewRouter);
 app.use("/",userRouter);
 
-
-// FALTU KA ROOT API
-app.get("/", (req, res) => {
-  res.send("root api working ");
-});
-
 app.all("*", (req, res, next) => {
   next(new ExpressError(404, "Page Not Found!!!"));
 });

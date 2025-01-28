@@ -1,19 +1,86 @@
 <% layout("/layouts/boilarplate") -%>
-<body>
-  <h3 style="color: white;">All listing</h3>
-  <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 row-cols-1 " style="margin: 0.5rem;">
-    <% for (listing of allListing) { %>
-      <a class="listing-link" href="/listing/<%= listing._id %>">
-      <div class="card col listing-card">
-        <img src="<%= listing.image.url %>"class="card-img-top index-img"alt="Image" loading="lazy"/>  <!--style="height: 20rem" -->
-        <div class="card-body">
-          <p class="card-text">
-            <b><%= listing.title %></b><br />
-            &#8377;<%= listing.price.toLocaleString('en-IN') %>/night
-          </p>
-        </div>
-      </div>
-      </a>
-    <% } %>
+
+<style>
+  #filters {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+  .filter {
+    margin-top: 1.7rem;
+    cursor: pointer;
+    margin-right: 2rem;
+    text-align: center;
+    opacity: 0.7;
+  }
+  .filter:hover {
+    opacity: 1;
+  }
+
+  .filter p {
+    font-size: 0.8rem;
+  }
+</style>
+
+<div id="filters">
+  <div class="filter">
+    <div><i class="fa-solid fa-fire-flame-curved"></i></div>
+    <p>Trending</p>
   </div>
-</body>
+  <div class="filter">
+    <div><i class="fa-solid fa-bed"></i></div>
+    <p>Rooms</p>
+  </div>
+  <div class="filter">
+    <div><svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#5f6368"><path d="M238-40v-164H-72L90-448H8l332-476 140 200 140-200 332 476h-82l162 244H722v164H518v-164h-76v164H238Zm444-270h152L670-554h78L620-738l-75 108 127 182h-82l92 138Zm-556 0h428L390-554h78L340-738 212-554h78L126-310Zm0 0h164-78 256-78 164-428Zm556 0h-92 82-127 203-78 164-152ZM518-204h204-204Zm235 0Z"/></svg></div>
+    <p>Tropical</p>
+  </div>
+  <div class="filter">
+    <div><i class="fa-solid fa-landmark-dome"></i></div>
+    <p>Historic home</p>
+  </div>
+  <div class="filter">
+    <div><svg xmlns="http://www.w3.org/2000/svg" height="20x" viewBox="0 -960 960 960" width="20px" fill="#5f6368"><path d="M40-120v-156l80-80v-258l-80-80v-146h60v80h100v-80h60v80h100v-80h60v146l-80 80v74h280v-74l-80-80v-146h60v80h100v-80h60v80h100v-80h60v146l-80 80v258l80 80v156H570v-120q0-38-26-64t-64-26q-38 0-64 26t-26 64v120H40Zm60-60h230v-60q0-63 44-106.5T480-390q63 0 106.5 43.5T630-240v60h230v-71l-80-80v-308l61-61H619l61 61v159H280v-159l61-61H119l61 61v308l-80 80v71Zm380-260Z"/></svg></div>
+    <p>Castles</p>
+  </div>
+  <div class="filter">
+    <div><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M155.71-604Q138-604 124-618t-14-32q0-18 14-31t32-13h120q38 0 64 26.5t24 63.5H155.71ZM236-238q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35Zm549.88 2Q810-236 827-252.88q17-16.88 17-41T827.12-335q-16.88-17-41-17T745-335.12q-17 16.88-17 41T744.88-253q16.88 17 41 17Zm-549.82-57Q209-293 190-311.94q-19-18.94-19-46T189.94-404q18.94-19 46-19T282-404.06q19 18.94 19 46T282.06-312q-18.94 19-46 19ZM806-441q30 6 48.5 16t41.5 31v-246q0-38-26-64t-64-26H544l-42-46 57-57-29-29-143 145 28 29 57-58 44 44v100q0 32-22 54t-53.84 22H362q27 22 41 40.5t28 49.5h9q68.48 0 117.24-48.76Q606-533.53 606-602v-38h200v199ZM639-312q5-31 14.5-49.5T685-402H441q5 25.82 5 44.91 0 19.09-5 45.09h198Zm147 166q-62 0-105-43t-43-105q0-62 43-105t105-43q62 0 105 43t43 105q0 62-43 105t-105 43Zm-550-2q-88 0-149-61T26-358q0-88 61-149t149-61q88 0 149 61t61 149q0 88-61 149t-149 61Zm403-373Z"/></svg></div>
+    <p>Farms</p>
+  </div>
+  <div class="filter">
+    <div><i class="fa-solid fa-person-swimming"></i></div>
+    <p>Amazing pools</p>
+  </div>
+  <div class="filter">
+    <div><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M240-213h477v-54H240v54Zm0-160h477v-54H240v54Zm1-160h476v-36l-24-18H267l-26 20v34Zm166-160h145l-73-55-72 55ZM135-107v-379l-51 39-63-85 114-87v-139h106v58l238-181 460 347-64 85-52-39v381H135Zm0-691q0-66 46.5-113T294-958q23 0 38.5-15.5T348-1011h106q0 66-47 113t-113 47q-22 0-37.5 15.5T241-798H135Z"/></svg></div>
+    <p>Cabin</p>
+  </div>
+  <div class="filter">
+    <div><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M178-88v-416L71-421 8-506l472-366 472 366-64 85-107-83v416H676v-88H284v88H178Zm106-370h392v-70H284v70Zm0 176h392v-70H284v70Zm62-352h268L480-738 346-634Z"/></svg></div>
+    <p>Tiny home</p>
+  </div>
+  <div class="filter">
+    <div><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M53-42v-682h278v-86l150-148 148 148v278h278v490H53Zm106-106h86v-86h-86v86Zm0-192h86v-86h-86v86Zm0-192h86v-86h-86v86Zm278 384h86v-86h-86v86Zm0-192h86v-86h-86v86Zm0-192h86v-86h-86v86Zm0-192h86v-86h-86v86Zm278 576h86v-86h-86v86Zm0-192h86v-86h-86v86Z"/></svg></div>
+    <p>Top cities</p>
+  </div>
+  <div class="filter">
+    <div><i class="fa-solid fa-snowflake"></i></div>
+    <p>Arctic</p>
+  </div>
+</div>
+
+<div class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-1 row-cols-1 " style="margin: 0.5rem;">
+  <% for (listing of allListing) { %>
+    <a class="listing-link" href="/listing/<%= listing._id %>">
+    <div class="card col listing-card">
+      <img src="<%= listing.image.url %>"class="card-img-top index-img"alt="Image" loading="lazy"/>  <!--style="height: 20rem" -->
+      <div class="card-body">
+        <p class="card-text">
+          <b><%= listing.title %></b><br />
+          &#8377;<%= listing.price.toLocaleString('en-IN') %>/night
+        </p>
+      </div>
+    </div>
+    </a>
+  <% } %>
+</div>
+
