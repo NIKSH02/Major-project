@@ -4,7 +4,7 @@ exports.router = router;
 const wrapAsync = require("../utils/wrapAsync.js");
 const passport = require("passport");
 const { saveRedirectUrl } = require("../middleware.js");
-const { createUser, renderSignupForm, renderLoginForm, loginUser, logoutUser, signupUser } = require("../controllers/user.js");
+const { renderSignupForm, renderLoginForm, loginUser, logoutUser, signupUser } = require("../controllers/user.js");
 
 
 router.route("/signup")

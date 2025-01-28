@@ -31,7 +31,7 @@ module.exports.loginUser = async (req,res) =>{
         let { username } = req.body; 
         req.flash("success",`Welcome back ${username} 😄`)
         redirectUrl = res.locals.redirectUrl || "/listing";
-        console.log("user",req.user._id);
+        // console.log("user",req.user._id);
         // console.log(redirectUrl,res.locals.redirectUrl)    for debugging and my better understanding 
         res.redirect(redirectUrl);
 }

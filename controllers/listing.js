@@ -34,10 +34,20 @@ module.exports.renderEditForm = async (req, res) => {
 
 
 module.exports.updateListing = async (req, res) => {
-    let { id } = req.params;
-    await Listing.findByIdAndUpdate(id, { ...req.body.listing });
-    req.flash("update","Wow your Airbnb is Updated 🪅");
-    res.redirect(`/listing/${id}`);
+  let { id } = req.params;
+  let listing = await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+  console.log(req.body.listing)
+  console.log(typeof req.file);
+  console.log(req.file);
+  if (typeof req.file !== "undefined") {
+    let url = req.file.path;
+    let filename = req.file.filename ;
+    listing.image = { url , filename};
+    await listing.save();
+  }
+  console.log(listing);
+  req.flash("update","Wow your Airbnb is Updated 🪅");
+  res.redirect(`/listing/${id}`);
 }
 
 
