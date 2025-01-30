@@ -1,47 +1,5 @@
 <% layout("/layouts/boilarplate") -%>
 
-<style>
-  #filters {
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: center;
-  }
-  .filter {
-    margin-top: 1.7rem;
-    cursor: pointer;
-    margin-right: 2rem;
-    text-align: center;
-    opacity: 0.7;
-  }
-  .filter:hover {
-    opacity: 1;
-  }
-
-  .filter p {
-    font-size: 0.8rem;
-  }
-  .tax-info {
-    display: none;
-  }
-  .tax-toggle {
-    margin-left: 1rem;
-    border:  1px solid rgb(197, 177, 177);
-    border-radius: 1rem;
-    height: 3rem;
-    padding: 0.5rem 1rem;
-    background-color: white;
-  }
-  .tax-toggle:hover {
-    background-color: #F7F7F7;
-    border: 1px solid black;
-  }
-  @media (max-width : 1300px) {
-    .tax-toggle {
-      display: none;
-    }
-  }
-</style>
-
 <div id="filters">
   <div class="filter">
     <div><i class="fa-solid fa-fire-flame-curved"></i></div>
@@ -102,7 +60,7 @@
 </div>
 
 
-<div class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-1 row-cols-1 " style="margin: 0.5rem;">
+<div class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-1 row-cols-1 mt-3" style="margin: 0.5rem;">
   <% for (listing of allListing) { %>
     <a class="listing-link" href="/listing/<%= listing._id %>">
     <div class="card col listing-card">
@@ -110,8 +68,8 @@
       <div class="card-body">
         <p class="card-text">
           <b><%= listing.title %></b><br />
-          &#8377;<%= listing.price.toLocaleString('en-IN') %>/night
-          <i class="tax-info">&nbsp;+18% GST</i>
+          <b class="before-tax"> &#8377;<%= listing.price.toLocaleString('en-IN') %>/night</b>
+          <b class="after-tax"><i>&nbsp;&#8377;<%= ((listing.price)+(listing.price*0.18)).toLocaleString('en-IN') %></i>/night</b>
         </p>
       </div>
     </div>
@@ -119,16 +77,3 @@
   <% } %>
 </div>
 
-<script>
-  let taxswitch = document.getElementById("flexSwitchCheckDefault");
-  taxswitch.addEventListener("click" ,() => {
-    let taxinfo = document.getElementsByClassName("tax-info");
-    for (info of taxinfo) {
-      if (info.style.display != "inline") {
-        info.style.display = "inline"
-      } else {
-        info.style.display = "none"
-      }
-    }
-  })
-</script>

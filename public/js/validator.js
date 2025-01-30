@@ -21,3 +21,23 @@
     );
   });
 })();
+
+
+// index page tax-toggle button js code 
+
+let taxSwitch = document.getElementById("flexSwitchCheckDefault");
+
+taxSwitch.addEventListener("change", () => {
+  let afterTaxElements = document.getElementsByClassName("after-tax");
+  let beforeTaxElements = document.getElementsByClassName("before-tax");
+
+  for (let i = 0; i < beforeTaxElements.length; i++) {
+    if (beforeTaxElements[i].style.display === "none") {
+      beforeTaxElements[i].style.display = "inline";
+      afterTaxElements[i].style.display = "none";
+    } else {
+      beforeTaxElements[i].style.display = "none";
+      afterTaxElements[i].style.display = "inline";
+    }
+  }
+});
