@@ -5,12 +5,12 @@ if (process.env.NODE_ENV !="production") {
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const MONGO_DB = "mongodb://127.0.0.1:27017/wanderlust";
 const path = require("path");
 const method = require("method-override");
 const ejsmate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError.js");
 const session = require("express-session");
+const MongoStore = require('connect-mongo');
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
@@ -27,8 +27,23 @@ app.use(method("_method"));
 app.engine("ejs", ejsmate);
 app.use(express.static(path.join(__dirname, "public")));
 
+const dburl = process.env.ATLASDB_URL;
+
+const store = MongoStore.create({
+  mongoUrl: dburl,
+  crypto: {
+    secret: process.env.SECRET,
+  },
+  touchAfter:24*3600,
+})
+
+store.on("error",()=> {
+  console.log("ERROR IN MONGO SESSION STORE",err)
+})
+
 const sessionOptions = {
-  secret: "mysupersecretcode",
+  store, //for mongostore 
+  secret: process.env.SECRET,
   resave: false,
   saveUninitialized : true,
   cookie : {
@@ -47,13 +62,15 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+// const MONGO_DB = "mongodb://127.0.0.1:27017/wanderlust";
+
+async function main() {
+  await mongoose.connect(dburl);
+}
+
 main()
   .then(() => console.log("connected to mangodb"))
   .catch((err) => console.log(err));
-
-async function main() {
-  await mongoose.connect(MONGO_DB);
-}
 
 app.use((req,res,next)=> {
   res.locals.success = req.flash("success");
@@ -63,15 +80,6 @@ app.use((req,res,next)=> {
   res.locals.currUser = req.user;
   next()
 }) 
-
-// app.get('/demoUser', async (req,res) => {
-//   let fake = new User ({
-//     email : 'nik@gmail.com',
-//     username: "nikhil",
-//   })
-//   let regesteredStudent = await User.register(fake,"nik@@what");
-//   res.send(regesteredStudent);
-// })
 
 //All Routes 
 app.use("/listing", listingRouter);
